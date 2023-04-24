@@ -33,8 +33,8 @@ public class PaymentFactoryController {
         return paymentService.createPayment(dto);
     }
     @PostMapping("/payByTron")
-    public HashMap<String, Integer> payByTron(@RequestParam String paymentId){
-        paymentService.payByTron(paymentId);
+    public HashMap<String, Integer> payByTron(@RequestParam Integer paymentId){
+        boolean isSuccessful = paymentService.payByTron(paymentId);
         HashMap<String, Integer> successful = new HashMap<>();
         successful.put("status", 200);
         return successful;

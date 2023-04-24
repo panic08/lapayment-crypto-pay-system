@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class Payment {
     @Id
-    private Long orderId;
+    private Long paymentId;
     private String merchantId;
     private String oauth;
     private Number amount;

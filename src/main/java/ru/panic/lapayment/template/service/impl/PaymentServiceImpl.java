@@ -11,28 +11,26 @@ import ru.panic.lapayment.template.dto.factory.PaymentRequestDto;
 import ru.panic.lapayment.template.entity.Payment;
 import ru.panic.lapayment.template.entity.enums.Currency;
 import ru.panic.lapayment.template.entity.enums.Status;
-import ru.panic.lapayment.template.rabbit.CryptoWalletsRabbit;
 import ru.panic.lapayment.template.repository.impl.PaymentRepositoryImpl;
 import ru.panic.lapayment.template.service.PaymentService;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    public PaymentServiceImpl(PaymentRepositoryImpl paymentRepository, RestTemplate restTemplate, CryptoWalletsRabbit rabbit) {
+    public PaymentServiceImpl(PaymentRepositoryImpl paymentRepository, RestTemplate restTemplate) {
         this.paymentRepository = paymentRepository;
         this.restTemplate = restTemplate;
-        this.rabbit = rabbit;
     }
     @Value("${ru.panic.lapayment.wallets.tron}")
     private String TRON_WALLET;
 
     PaymentRepositoryImpl paymentRepository;
     RestTemplate restTemplate;
-    CryptoWalletsRabbit rabbit;
     private final String TRON_TRANSACTION_URL = "https://api.trongrid.io/v1/accounts/" + TRON_WALLET + "/transactions?only_to=true&limit=1";
     private final String TRON_ACC_URL = "https://api.trongrid.io/v1/accounts/" + TRON_WALLET + "/transactions?only_to=true&limit=1";
     @Override
@@ -73,6 +71,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setOauth(paymentRequestDto.getOauth());
         payment.setAmount(paymentRequestDto.getAmount());
         payment.setTron_amount(tronPrice);
+        //Uncorrect amount, i can fixed this :)
         payment.setBitcoin_amount(bitcoinPrice);
         payment.setEthereum_amount(ethereumPrice);
         payment.setRipple_amount(ripplePrice);
@@ -84,28 +83,37 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Boolean payByTron(String paymentId) {
+    public Boolean payByTron(Integer paymentId) {
         long endTime = System.currentTimeMillis() + 90000; // вычисляем время окончания
         Instant timeNow = Instant.now();
+        Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
         while (System.currentTimeMillis() < endTime) {
             TronDto response = restTemplate.getForObject(TRON_TRANSACTION_URL, TronDto.class);
-            Instant blockTime = Instant.ofEpochMilli(response.getData().get(0).getBlock_timestamp());
+            List<TronDto.Data> dataList = response.getData();
 //            if (blockTime.isAfter(timeNow)){
-//                if (response
-//                        .getData()
-//                        .get(0).getRaw_data()
-//                        .getContract()
-//                        .get(0)
-//                        .getParameter()
-//                        .getValue()
-//                        .getAmount() == amount
-//                ){
-//                    return true;
+//                for(TronDto.Data.RawData.Contract key : contracts){
+//                    if (key.getParameter().getValue().getAmount() == payment.getTron_amount()){
+//                        return true;
+//                    }
 //                }
 //            }
+            for (TronDto.Data key : dataList){
+                if (Instant.ofEpochMilli(key.getBlock_timestamp()).isAfter(timeNow)){
+                    if(key
+                            .getRaw_data()
+                            .getContract()
+                            .get(0)
+                            .getParameter()
+                            .getValue()
+                            .getAmount() == payment.getTron_amount()){
+                        paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
+                        return true;
+                    }
+                }
+            }
             
             try {
-                Thread.sleep(8000); // ждем 8 секунд между выводами
+                Thread.sleep(6000); // ждем 6 секунд между выводами
             }catch (Exception e){
                 //Void catcher-body
             }

@@ -6,6 +6,6 @@ import java.util.Map;
 
 public interface PaymentService {
     Payment createPayment(PaymentRequestDto paymentRequestDto);
-    Boolean payByTron(String paymentId);
+    Boolean payByTron(Integer paymentId);
     Map<String, Map<String, Double>> getCoinsPrice(String currency);
 }

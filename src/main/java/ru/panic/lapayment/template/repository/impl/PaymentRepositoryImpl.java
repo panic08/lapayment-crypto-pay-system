@@ -1,12 +1,12 @@
 package ru.panic.lapayment.template.repository.impl;
 
 import com.example.jooq.model.tables.Payments;
+import com.example.jooq.model.tables.records.PaymentsRecord;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
 import ru.panic.lapayment.template.entity.Payment;
+import ru.panic.lapayment.template.entity.enums.Status;
 import ru.panic.lapayment.template.repository.PaymentRepository;
-
-import java.math.BigDecimal;
 
 @Service
 public class PaymentRepositoryImpl implements PaymentRepository {
@@ -26,7 +26,26 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 .set(Payments.PAYMENTS.RIPPLE_AMOUNT, payment.getRipple_amount())
                 .set(Payments.PAYMENTS.CURRENCY, String.valueOf(payment.getCurrency()))
                 .set(Payments.PAYMENTS.STATUS, String.valueOf(payment.getStatus()))
-                .set(Payments.PAYMENTS.BLOCKTIME, String.valueOf(payment.getBlockTime()));
+                .set(Payments.PAYMENTS.BLOCKTIME, String.valueOf(payment.getBlockTime()))
+                .execute();
 
+    }
+
+    @Override
+    public Payment findPaymentByPaymentId(Integer paymentId) {
+        PaymentsRecord paymentsRecord = dslContext
+                .selectFrom(Payments.PAYMENTS)
+                .where(Payments.PAYMENTS.ID.eq(paymentId))
+                .fetchOne();
+        return paymentsRecord.into(Payment.class);
+    }
+
+    @Override
+    public void updateStatusByPaymentId(Integer paymentId, Status status) {
+        dslContext
+                .update(Payments.PAYMENTS)
+                .set(Payments.PAYMENTS.STATUS, String.valueOf(status))
+                .where(Payments.PAYMENTS.ID.eq(paymentId))
+                .execute();
     }
 }

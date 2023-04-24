@@ -27,6 +27,7 @@ public class UserRepositoryImpl implements UserRepository {
         dslContext.insertInto(USERS)
                 .set(USERS.USERNAME, user.getUsername())
                 .set(USERS.PASSWORD, user.getPassword())
-                .set(USERS.REGISTEREDAT, String.valueOf(user.getRegisteredAt())).execute();
+                .set(USERS.REGISTEREDAT, String.valueOf(user.getRegisteredAt()))
+                .execute();
     }
 }
