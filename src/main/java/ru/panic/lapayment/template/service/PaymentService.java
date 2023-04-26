@@ -7,5 +7,8 @@ import java.util.Map;
 public interface PaymentService {
     Payment createPayment(PaymentRequestDto paymentRequestDto);
     Boolean payByTron(Integer paymentId);
+    Boolean payByBitcoin(Integer paymentId);
+    Boolean payByEthereum(Integer paymentId);
+
     Map<String, Map<String, Double>> getCoinsPrice(String currency);
 }

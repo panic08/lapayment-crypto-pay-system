@@ -33,11 +33,20 @@ public class PaymentFactoryController {
         return paymentService.createPayment(dto);
     }
     @PostMapping("/payByTron")
-    public HashMap<String, Integer> payByTron(@RequestParam Integer paymentId){
+    public String payByTron(@RequestParam Integer paymentId){
         boolean isSuccessful = paymentService.payByTron(paymentId);
-        HashMap<String, Integer> successful = new HashMap<>();
-        successful.put("status", 200);
-        return successful;
+        return "nigga";
+    }
+    @PostMapping("/payByBitcoin")
+    public HashMap<String, Integer> payByBitcoin(@RequestParam Integer paymentId){
+        boolean isSuccessful = paymentService.payByBitcoin(paymentId);
+
+        return null;
+    }
+    @PostMapping("/payByEthereum")
+    public HashMap<String, Integer> payByEthereum(@RequestParam Integer paymentId){
+        boolean isSuccessful = paymentService.payByEthereum(paymentId);
+        return null;
     }
 
 

@@ -3,6 +3,7 @@ package ru.panic.lapayment.template.repository.impl;
 import com.example.jooq.model.tables.Payments;
 import com.example.jooq.model.tables.records.PaymentsRecord;
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Service;
 import ru.panic.lapayment.template.entity.Payment;
 import ru.panic.lapayment.template.entity.enums.Status;
@@ -19,6 +20,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     public void save(Payment payment) {
         dslContext.insertInto(Payments.PAYMENTS)
                 .set(Payments.PAYMENTS.MERCHANTID, payment.getMerchantId())
+                .set(Payments.PAYMENTS.OAUTH, payment.getOauth())
                 .set(Payments.PAYMENTS.AMOUNT, (Double) payment.getAmount())
                 .set(Payments.PAYMENTS.TRON_AMOUNT, payment.getTron_amount())
                 .set(Payments.PAYMENTS.BITCOIN_AMOUNT, payment.getBitcoin_amount())
@@ -37,7 +39,16 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 .selectFrom(Payments.PAYMENTS)
                 .where(Payments.PAYMENTS.ID.eq(paymentId))
                 .fetchOne();
+        assert paymentsRecord != null;
         return paymentsRecord.into(Payment.class);
+    }
+
+    @Override
+    public Long findLastId() {
+                Long request = dslContext.select(DSL.max(Payments.PAYMENTS.ID))
+                .from(Payments.PAYMENTS)
+                .fetchOneInto(Long.class);
+                return request != null ? request : 0;
     }
 
     @Override
