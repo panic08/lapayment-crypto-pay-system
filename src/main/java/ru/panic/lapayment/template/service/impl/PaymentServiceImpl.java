@@ -11,6 +11,8 @@ import ru.panic.lapayment.template.dto.crypto.TronDto;
 import ru.panic.lapayment.template.dto.factory.PaymentRequestDto;
 import ru.panic.lapayment.template.entity.Payment;
 import ru.panic.lapayment.template.entity.enums.Status;
+import ru.panic.lapayment.template.exception.StatusProceedException;
+import ru.panic.lapayment.template.handler.StatusProceedAdviceHandler;
 import ru.panic.lapayment.template.repository.impl.PaymentRepositoryImpl;
 import ru.panic.lapayment.template.service.PaymentService;
 
@@ -106,7 +108,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Boolean payByTron(Integer paymentId) {
         Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
         if (payment.getStatus() == Status.PROCEED){
-            return null;
+            throw new StatusProceedException("Завершите предыдущую транкзакцию, перед тем как совершить следующую");
         }
         paymentRepository.updateStatusByPaymentId(paymentId, Status.PROCEED);
         long endTime = System.currentTimeMillis() + 90000; // вычисляем время окончания
@@ -151,7 +153,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Boolean payByBitcoin(Integer paymentId) {
         Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
         if (payment.getStatus() == Status.PROCEED){
-            return null;
+            throw new StatusProceedException("Завершите предыдущую транкзакцию, перед тем как совершить следующую");
         }
         paymentRepository.updateStatusByPaymentId(paymentId, Status.PROCEED);
         long endTime = System.currentTimeMillis() + 90000; // вычисляем время окончания
@@ -193,7 +195,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Boolean payByEthereum(Integer paymentId) {
         Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
         if (payment.getStatus() == Status.PROCEED){
-            return null;
+            throw new StatusProceedException("Завершите предыдущую транкзакцию, перед тем как совершить следующую");
         }
         paymentRepository.updateStatusByPaymentId(paymentId, Status.PROCEED);
         long endTime = System.currentTimeMillis() + 90000; // вычисляем время окончания
@@ -232,7 +234,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Boolean payByMatic(Integer paymentId) {
         Payment payment = paymentRepository.findPaymentByPaymentId(paymentId);
         if (payment.getStatus() == Status.PROCEED){
-            return null;
+            throw new StatusProceedException("Завершите предыдущую транкзакцию, перед тем как совершить следующую");
         }
         paymentRepository.updateStatusByPaymentId(paymentId, Status.PROCEED);
         long endTime = System.currentTimeMillis() + 90000; // вычисляем время окончания

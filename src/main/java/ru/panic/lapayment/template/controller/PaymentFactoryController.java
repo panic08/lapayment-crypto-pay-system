@@ -48,6 +48,11 @@ public class PaymentFactoryController {
         boolean isSuccessful = paymentService.payByEthereum(paymentId);
         return null;
     }
+    @PostMapping("/payByMatic")
+    public HashMap<String, Integer> payByMatic(@RequestParam Integer paymentId){
+        boolean isSuccessful = paymentService.payByMatic(paymentId);
+        return null;
+    }
 
 
 }
