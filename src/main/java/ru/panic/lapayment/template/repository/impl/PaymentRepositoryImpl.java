@@ -25,7 +25,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 .set(Payments.PAYMENTS.TRON_AMOUNT, payment.getTron_amount())
                 .set(Payments.PAYMENTS.BITCOIN_AMOUNT, payment.getBitcoin_amount())
                 .set(Payments.PAYMENTS.ETHEREUM_AMOUNT, payment.getEthereum_amount())
-                .set(Payments.PAYMENTS.RIPPLE_AMOUNT, payment.getRipple_amount())
+                .set(Payments.PAYMENTS.MATIC_AMOUNT, payment.getMatic_amount())
                 .set(Payments.PAYMENTS.CURRENCY, String.valueOf(payment.getCurrency()))
                 .set(Payments.PAYMENTS.STATUS, String.valueOf(payment.getStatus()))
                 .set(Payments.PAYMENTS.BLOCKTIME, String.valueOf(payment.getBlockTime()))

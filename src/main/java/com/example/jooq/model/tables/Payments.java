@@ -86,9 +86,9 @@ public class Payments extends TableImpl<PaymentsRecord> {
     public final TableField<PaymentsRecord, Double> ETHEREUM_AMOUNT = createField(DSL.name("ethereum_amount"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
-     * The column <code>public.payments.ripple_amount</code>.
+     * The column <code>public.payments.matic_amount</code>.
      */
-    public final TableField<PaymentsRecord, Double> RIPPLE_AMOUNT = createField(DSL.name("ripple_amount"), SQLDataType.DOUBLE.nullable(false), this, "");
+    public final TableField<PaymentsRecord, Double> MATIC_AMOUNT = createField(DSL.name("matic_amount"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
      * The column <code>public.payments.currency</code>.

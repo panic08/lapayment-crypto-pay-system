@@ -9,6 +9,7 @@ public interface PaymentService {
     Boolean payByTron(Integer paymentId);
     Boolean payByBitcoin(Integer paymentId);
     Boolean payByEthereum(Integer paymentId);
+    Boolean payByMatic(Integer paymentId);
 
     Map<String, Map<String, Double>> getCoinsPrice(String currency);
 }

@@ -17,7 +17,7 @@ public class Payment {
     private Double tron_amount;
     private Double bitcoin_amount;
     private Double ethereum_amount;
-    private Double ripple_amount;
+    private Double matic_amount;
     private Currency currency;
     private Status status;
     private Date blockTime;

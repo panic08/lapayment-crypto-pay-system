@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Payments(
      tron_amount double precision NOT NULL,
      bitcoin_amount double precision NOT NULL,
      ethereum_amount double precision NOT NULL,
-     ripple_amount double precision NOT NULL,
+     matic_amount double precision NOT NULL,
      currency text NOT NULL,
      status text NOT NULL,
      blocktime text NOT NULL
