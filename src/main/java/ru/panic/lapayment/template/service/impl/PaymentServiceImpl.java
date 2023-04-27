@@ -12,11 +12,8 @@ import ru.panic.lapayment.template.dto.factory.PaymentRequestDto;
 import ru.panic.lapayment.template.entity.Payment;
 import ru.panic.lapayment.template.entity.enums.Status;
 import ru.panic.lapayment.template.exception.StatusProceedException;
-import ru.panic.lapayment.template.handler.StatusProceedAdviceHandler;
 import ru.panic.lapayment.template.repository.impl.PaymentRepositoryImpl;
 import ru.panic.lapayment.template.service.PaymentService;
-
-import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
