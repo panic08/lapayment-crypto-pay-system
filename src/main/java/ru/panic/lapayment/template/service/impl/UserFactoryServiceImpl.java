@@ -1,7 +1,6 @@
 package ru.panic.lapayment.template.service.impl;
 
 import org.springframework.stereotype.Service;
-import ru.panic.lapayment.template.dto.factory.PaymentResponseDto;
 import ru.panic.lapayment.template.entity.User;
 import ru.panic.lapayment.template.entity.enums.CryptoCurrency;
 import ru.panic.lapayment.template.repository.impl.UserFactoryRepositoryImpl;
