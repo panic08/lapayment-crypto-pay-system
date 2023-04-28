@@ -27,11 +27,12 @@ import java.util.Map;
 @Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
-    public PaymentServiceImpl(PaymentRepositoryImpl paymentRepository, RestTemplate restTemplate, CryptoExchangeUtil cryptoExchangeUtil, WebHookUtil webHookUtil) {
+    public PaymentServiceImpl(PaymentRepositoryImpl paymentRepository, RestTemplate restTemplate, CryptoExchangeUtil cryptoExchangeUtil, WebHookUtil webHookUtil, UserFactoryServiceImpl userFactoryService) {
         this.paymentRepository = paymentRepository;
         this.restTemplate = restTemplate;
         this.cryptoExchangeUtil = cryptoExchangeUtil;
         this.webHookUtil = webHookUtil;
+        this.userFactoryService = userFactoryService;
     }
 
     @Value("${ru.panic.lapayment.wallets.tron}")
@@ -50,6 +51,7 @@ public class PaymentServiceImpl implements PaymentService {
     RestTemplate restTemplate;
     CryptoExchangeUtil cryptoExchangeUtil;
     WebHookUtil webHookUtil;
+    UserFactoryServiceImpl userFactoryService;
     private final String TRON_TRANSACTION_URL = "https://api.trongrid.io/v1/accounts/" + TRON_WALLET + "/transactions?only_to=true&limit=5";
     private final String BITCOIN_TRANSACTION_URL = "https://blockchain.info/rawaddr/" + BITCOIN_WALLET + "?limit=5";
     private final String ETHEREUM_TRANSACTION_URL = "https://api.etherscan.io/api?module=account&action=txlist&address=" + ETHEREUM_WALLET + "&startblock=0&endblock=99999999&sort=desc&page=1&offset=8&apikey=" + ETHEREUM_API_KEY;
@@ -105,7 +107,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setMatic_amount(Math.round(((Double) payment.getAmount() / maticPrice) * 1e3) / 1e3);
         payment.setCurrency(paymentRequestDto.getCurrency());
         payment.setStatus(Status.NOT_COMPLETED);
-        payment.setBlockTime(date);
+        payment.setTime(date);
         paymentRepository.save(payment);
         log.info("Saving payment");
         return payment;
@@ -141,6 +143,7 @@ public class PaymentServiceImpl implements PaymentService {
                         log.info("\nChecking about amount equals on iteration {} by payByTron on paymentId={}", i, paymentId);
                         paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
                         log.info("\nPay is accepted on iteration {} by payByTron on paymentId={}", i, paymentId);
+                        userFactoryService.assignCryptoToUser(CryptoCurrency.TRX, payment.getMerchantId(), payment.getTron_amount());
                         PaymentResponseDto dto = new PaymentResponseDto();
                         dto.setMerchantId(payment.getMerchantId());
                         dto.setAmount(payment.getTron_amount());
@@ -188,6 +191,7 @@ public class PaymentServiceImpl implements PaymentService {
                         log.info("\nChecking about amount equals on iteration {} by payByBitcoin on paymentId={}", i, paymentId);
                         paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
                         log.info("\nPay is accepted on iteration {} by payByBitcoin on paymentId={}", i, paymentId);
+                        userFactoryService.assignCryptoToUser(CryptoCurrency.BTC, payment.getMerchantId(), payment.getBitcoin_amount());
                         PaymentResponseDto dto = new PaymentResponseDto();
                         dto.setMerchantId(payment.getMerchantId());
                         dto.setAmount(payment.getBitcoin_amount());
@@ -233,6 +237,7 @@ public class PaymentServiceImpl implements PaymentService {
                         log.info("\nChecking about amount equals on iteration {} by payByEthereum on paymentId={}", i, paymentId);
                         paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
                         log.info("\nPay is accepted on iteration {} by payByEthereum on paymentId={}", i, paymentId);
+                        userFactoryService.assignCryptoToUser(CryptoCurrency.ETH, payment.getMerchantId(), payment.getEthereum_amount());
                         PaymentResponseDto dto = new PaymentResponseDto();
                         dto.setMerchantId(payment.getMerchantId());
                         dto.setAmount(payment.getEthereum_amount());
@@ -278,6 +283,7 @@ public class PaymentServiceImpl implements PaymentService {
                         log.info("\nChecking about amount equals on iteration {} by payByMatic on paymentId={}", i, paymentId);
                         paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
                         log.info("\nPay is accepted on iteration {} by payByMatic on paymentId={}", i, paymentId);
+                        userFactoryService.assignCryptoToUser(CryptoCurrency.MATIC, payment.getMerchantId(), payment.getMatic_amount());
                         PaymentResponseDto dto = new PaymentResponseDto();
                         dto.setMerchantId(payment.getMerchantId());
                         dto.setAmount(payment.getMatic_amount());

@@ -20,6 +20,6 @@ public class Payment {
     private Double matic_amount;
     private Currency currency;
     private Status status;
-    private Date blockTime;
+    private Date time;
 
 }
