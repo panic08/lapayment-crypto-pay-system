@@ -101,9 +101,9 @@ public class Payments extends TableImpl<PaymentsRecord> {
     public final TableField<PaymentsRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>public.payments.blocktime</code>.
+     * The column <code>public.payments.time</code>.
      */
-    public final TableField<PaymentsRecord, String> BLOCKTIME = createField(DSL.name("blocktime"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<PaymentsRecord, String> TIME = createField(DSL.name("time"), SQLDataType.CLOB.nullable(false), this, "");
 
     private Payments(Name alias, Table<PaymentsRecord> aliased) {
         this(alias, aliased, null);

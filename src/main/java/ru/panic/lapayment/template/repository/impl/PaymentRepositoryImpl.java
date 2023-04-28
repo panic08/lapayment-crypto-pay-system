@@ -28,7 +28,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 .set(Payments.PAYMENTS.MATIC_AMOUNT, payment.getMatic_amount())
                 .set(Payments.PAYMENTS.CURRENCY, String.valueOf(payment.getCurrency()))
                 .set(Payments.PAYMENTS.STATUS, String.valueOf(payment.getStatus()))
-                .set(Payments.PAYMENTS.BLOCKTIME, String.valueOf(payment.getBlockTime()))
+                .set(Payments.PAYMENTS.TIME, String.valueOf(payment.getBlockTime()))
                 .execute();
 
     }

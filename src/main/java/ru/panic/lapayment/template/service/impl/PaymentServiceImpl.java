@@ -2,18 +2,22 @@ package ru.panic.lapayment.template.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.panic.lapayment.template.dto.crypto.BitcoinDto;
 import ru.panic.lapayment.template.dto.crypto.EthereumDto;
 import ru.panic.lapayment.template.dto.crypto.TronDto;
 import ru.panic.lapayment.template.dto.factory.PaymentRequestDto;
+import ru.panic.lapayment.template.dto.factory.PaymentResponseDto;
 import ru.panic.lapayment.template.entity.Payment;
+import ru.panic.lapayment.template.entity.enums.CryptoCurrency;
 import ru.panic.lapayment.template.entity.enums.Status;
 import ru.panic.lapayment.template.exception.StatusProceedException;
 import ru.panic.lapayment.template.repository.impl.PaymentRepositoryImpl;
 import ru.panic.lapayment.template.service.PaymentService;
+import ru.panic.lapayment.template.util.CryptoExchangeUtil;
+import ru.panic.lapayment.template.util.WebHookUtil;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -23,10 +27,13 @@ import java.util.Map;
 @Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
-    public PaymentServiceImpl(PaymentRepositoryImpl paymentRepository, RestTemplate restTemplate) {
+    public PaymentServiceImpl(PaymentRepositoryImpl paymentRepository, RestTemplate restTemplate, CryptoExchangeUtil cryptoExchangeUtil, WebHookUtil webHookUtil) {
         this.paymentRepository = paymentRepository;
         this.restTemplate = restTemplate;
+        this.cryptoExchangeUtil = cryptoExchangeUtil;
+        this.webHookUtil = webHookUtil;
     }
+
     @Value("${ru.panic.lapayment.wallets.tron}")
     private String TRON_WALLET = "TDosXs3EDkd5t8hcM26cFTysVf7gbX2uPX";
     @Value("${ru.panic.lapayment.wallets.bitcoin}")
@@ -41,15 +48,18 @@ public class PaymentServiceImpl implements PaymentService {
 
     PaymentRepositoryImpl paymentRepository;
     RestTemplate restTemplate;
+    CryptoExchangeUtil cryptoExchangeUtil;
+    WebHookUtil webHookUtil;
     private final String TRON_TRANSACTION_URL = "https://api.trongrid.io/v1/accounts/" + TRON_WALLET + "/transactions?only_to=true&limit=5";
     private final String BITCOIN_TRANSACTION_URL = "https://blockchain.info/rawaddr/" + BITCOIN_WALLET + "?limit=5";
     private final String ETHEREUM_TRANSACTION_URL = "https://api.etherscan.io/api?module=account&action=txlist&address=" + ETHEREUM_WALLET + "&startblock=0&endblock=99999999&sort=desc&page=1&offset=8&apikey=" + ETHEREUM_API_KEY;
     private final String MATIC_TRANSACTION_URL = "https://api.polygonscan.com/api?module=account&action=txlist&address=" + ETHEREUM_WALLET + "&startblock=0&endblock=9999999999999999&page=1&offset=8&sort=desc&apikey=" + MATIC_API_KEY;
     @Override
     public Payment createPayment(PaymentRequestDto paymentRequestDto) {
+
         log.info("Creating new payment with payment");
         Date date = new Date();
-        Map<String, Map<String, Double>> result = getCoinsPrice(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
+        Map<String, Map<String, Double>> result = cryptoExchangeUtil.getCoinsPrice(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
         Object tronPriceObj = result.get("tron").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
         Object bitcoinPriceObj = result.get("bitcoin").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
         Object ethereumPriceObj = result.get("ethereum").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
@@ -131,6 +141,12 @@ public class PaymentServiceImpl implements PaymentService {
                         log.info("\nChecking about amount equals on iteration {} by payByTron on paymentId={}", i, paymentId);
                         paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
                         log.info("\nPay is accepted on iteration {} by payByTron on paymentId={}", i, paymentId);
+                        PaymentResponseDto dto = new PaymentResponseDto();
+                        dto.setMerchantId(payment.getMerchantId());
+                        dto.setAmount(payment.getTron_amount());
+                        dto.setCurrency(CryptoCurrency.TRX);
+                        dto.setOauth(payment.getOauth());
+                        webHookUtil.sendRequest(dto);
                         return true;
                     }
                 }
@@ -172,6 +188,12 @@ public class PaymentServiceImpl implements PaymentService {
                         log.info("\nChecking about amount equals on iteration {} by payByBitcoin on paymentId={}", i, paymentId);
                         paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
                         log.info("\nPay is accepted on iteration {} by payByBitcoin on paymentId={}", i, paymentId);
+                        PaymentResponseDto dto = new PaymentResponseDto();
+                        dto.setMerchantId(payment.getMerchantId());
+                        dto.setAmount(payment.getBitcoin_amount());
+                        dto.setCurrency(CryptoCurrency.BTC);
+                        dto.setOauth(payment.getOauth());
+                        webHookUtil.sendRequest(dto);
                         return true;
                     }
 
@@ -211,6 +233,12 @@ public class PaymentServiceImpl implements PaymentService {
                         log.info("\nChecking about amount equals on iteration {} by payByEthereum on paymentId={}", i, paymentId);
                         paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
                         log.info("\nPay is accepted on iteration {} by payByEthereum on paymentId={}", i, paymentId);
+                        PaymentResponseDto dto = new PaymentResponseDto();
+                        dto.setMerchantId(payment.getMerchantId());
+                        dto.setAmount(payment.getEthereum_amount());
+                        dto.setCurrency(CryptoCurrency.ETH);
+                        dto.setOauth(payment.getOauth());
+                        webHookUtil.sendRequest(dto);
                         return true;
                     }
 
@@ -250,6 +278,12 @@ public class PaymentServiceImpl implements PaymentService {
                         log.info("\nChecking about amount equals on iteration {} by payByMatic on paymentId={}", i, paymentId);
                         paymentRepository.updateStatusByPaymentId(paymentId, Status.COMPLETED);
                         log.info("\nPay is accepted on iteration {} by payByMatic on paymentId={}", i, paymentId);
+                        PaymentResponseDto dto = new PaymentResponseDto();
+                        dto.setMerchantId(payment.getMerchantId());
+                        dto.setAmount(payment.getMatic_amount());
+                        dto.setCurrency(CryptoCurrency.MATIC);
+                        dto.setOauth(payment.getOauth());
+                        webHookUtil.sendRequest(dto);
                         return true;
                     }
 
@@ -266,12 +300,4 @@ public class PaymentServiceImpl implements PaymentService {
         return false;
     }
 
-
-    @Override
-    public Map<String, Map<String, Double>> getCoinsPrice(String currency) {
-        String url = "https://api.coingecko.com/api/v3/simple/price?ids=tron,bitcoin,ethereum,matic-network&vs_currencies="+ currency;
-        ResponseEntity<Map> responseEntity = restTemplate.getForEntity(url, Map.class);
-        Map<String, Map<String, Double>> result = responseEntity.getBody();
-        return result;
-    }
 }

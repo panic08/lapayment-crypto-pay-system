@@ -11,6 +11,7 @@ import ru.panic.lapayment.template.repository.impl.UserRepositoryImpl;
 import ru.panic.lapayment.template.service.AuthorizeService;
 import java.util.Date;
 
+
 @Service
 public class AuthorizeServiceImpl implements AuthorizeService {
 
@@ -26,7 +27,6 @@ public class AuthorizeServiceImpl implements AuthorizeService {
 
     @Override
     public User generateLogin(AuthorizeRequestDto authorizeRequestDto) {
-        Date date = new Date();
         User user = userRepository.findByUsername(authorizeRequestDto.getUsername());
             if (user == null) {
                 throw new InvalidCredentialsException("Неверный логин или пароль");
@@ -34,9 +34,6 @@ public class AuthorizeServiceImpl implements AuthorizeService {
             if (!passwordEncoder.encode(authorizeRequestDto.getPassword()).equals(user.getPassword())){
                 throw new InvalidCredentialsException("Неверный логин или пароль");
             }
-        user.setUsername(authorizeRequestDto.getUsername());
-        user.setPassword(passwordEncoder.encode(authorizeRequestDto.getPassword()));
-        user.setRegisteredAt(date);
         user.setToken(jwtUtils.generateToken(user));
         return user;
     }
@@ -48,7 +45,7 @@ public class AuthorizeServiceImpl implements AuthorizeService {
 
             if (userRepository.findByUsername(authorizeRequestDto.getUsername()) != null) {
                 System.out.println("оно есть");
-                throw new UserFoundedException("Пользователь с таким никнеймом уже существует.");
+                throw new UserFoundedException("Пользователь с таким логином уже существует.");
 
             }
 
@@ -56,6 +53,10 @@ public class AuthorizeServiceImpl implements AuthorizeService {
             user.setUsername(authorizeRequestDto.getUsername());
             user.setPassword(passwordEncoder.encode(authorizeRequestDto.getPassword()));
             user.setRegisteredAt(date);
+            user.setBitcoin_balance(0.0);
+            user.setEthereum_balance(0.0);
+            user.setTron_balance(0.0);
+            user.setMatic_balance(0.0);
             user.setToken(jwtUtils.generateToken(user));
             userRepository.save(user);
         return user;

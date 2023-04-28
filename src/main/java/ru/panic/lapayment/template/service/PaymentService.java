@@ -11,5 +11,4 @@ public interface PaymentService {
     Boolean payByEthereum(Integer paymentId);
     Boolean payByMatic(Integer paymentId);
 
-    Map<String, Map<String, Double>> getCoinsPrice(String currency);
 }

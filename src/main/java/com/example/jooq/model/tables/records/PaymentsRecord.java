@@ -162,16 +162,16 @@ public class PaymentsRecord extends UpdatableRecordImpl<PaymentsRecord> implemen
     }
 
     /**
-     * Setter for <code>public.payments.blocktime</code>.
+     * Setter for <code>public.payments.time</code>.
      */
-    public void setBlocktime(String value) {
+    public void setTime(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>public.payments.blocktime</code>.
+     * Getter for <code>public.payments.time</code>.
      */
-    public String getBlocktime() {
+    public String getTime() {
         return (String) get(10);
     }
 
@@ -250,7 +250,7 @@ public class PaymentsRecord extends UpdatableRecordImpl<PaymentsRecord> implemen
 
     @Override
     public Field<String> field11() {
-        return Payments.PAYMENTS.BLOCKTIME;
+        return Payments.PAYMENTS.TIME;
     }
 
     @Override
@@ -305,7 +305,7 @@ public class PaymentsRecord extends UpdatableRecordImpl<PaymentsRecord> implemen
 
     @Override
     public String component11() {
-        return getBlocktime();
+        return getTime();
     }
 
     @Override
@@ -360,7 +360,7 @@ public class PaymentsRecord extends UpdatableRecordImpl<PaymentsRecord> implemen
 
     @Override
     public String value11() {
-        return getBlocktime();
+        return getTime();
     }
 
     @Override
@@ -425,7 +425,7 @@ public class PaymentsRecord extends UpdatableRecordImpl<PaymentsRecord> implemen
 
     @Override
     public PaymentsRecord value11(String value) {
-        setBlocktime(value);
+        setTime(value);
         return this;
     }
 
@@ -459,7 +459,7 @@ public class PaymentsRecord extends UpdatableRecordImpl<PaymentsRecord> implemen
     /**
      * Create a detached, initialised PaymentsRecord
      */
-    public PaymentsRecord(Integer id, String merchantid, String oauth, Double amount, Double tronAmount, Double bitcoinAmount, Double ethereumAmount, Double maticAmount, String currency, String status, String blocktime) {
+    public PaymentsRecord(Integer id, String merchantid, String oauth, Double amount, Double tronAmount, Double bitcoinAmount, Double ethereumAmount, Double maticAmount, String currency, String status, String time) {
         super(Payments.PAYMENTS);
 
         setId(id);
@@ -472,7 +472,7 @@ public class PaymentsRecord extends UpdatableRecordImpl<PaymentsRecord> implemen
         setMaticAmount(maticAmount);
         setCurrency(currency);
         setStatus(status);
-        setBlocktime(blocktime);
+        setTime(time);
         resetChangedOnNotNull();
     }
 }

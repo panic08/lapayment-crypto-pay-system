@@ -3,6 +3,7 @@ package ru.panic.lapayment.template.repository;
 import org.springframework.stereotype.Repository;
 import ru.panic.lapayment.template.entity.Payment;
 import ru.panic.lapayment.template.entity.enums.Status;
+import ru.panic.lapayment.template.repository.impl.PaymentRepositoryImpl;
 
 @Repository
 public interface PaymentRepository {

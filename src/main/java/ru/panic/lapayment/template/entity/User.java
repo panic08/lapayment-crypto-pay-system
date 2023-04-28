@@ -18,6 +18,10 @@ public class User implements UserDetails {
     private String password;
     private Date registeredAt;
     private String token;
+    private Double tron_balance;
+    private Double bitcoin_balance;
+    private Double ethereum_balance;
+    private Double matic_balance;
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

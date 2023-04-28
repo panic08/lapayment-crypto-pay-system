@@ -5,6 +5,7 @@ package com.example.jooq.model;
 
 
 import com.example.jooq.model.tables.Payments;
+import com.example.jooq.model.tables.Userfactory;
 import com.example.jooq.model.tables.Users;
 
 
@@ -18,6 +19,11 @@ public class Tables {
      * The table <code>public.payments</code>.
      */
     public static final Payments PAYMENTS = Payments.PAYMENTS;
+
+    /**
+     * The table <code>public.userfactory</code>.
+     */
+    public static final Userfactory USERFACTORY = Userfactory.USERFACTORY;
 
     /**
      * The table <code>public.users</code>.

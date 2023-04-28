@@ -12,12 +12,12 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function4;
+import org.jooq.Function8;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row4;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -58,12 +58,32 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>public.users.username</code>.
      */
-    public final TableField<UsersRecord, String> USERNAME = createField(DSL.name("username"), SQLDataType.VARCHAR(15).nullable(false), this, "");
+    public final TableField<UsersRecord, String> USERNAME = createField(DSL.name("username"), SQLDataType.VARCHAR(255).nullable(false), this, "");
 
     /**
      * The column <code>public.users.password</code>.
      */
     public final TableField<UsersRecord, String> PASSWORD = createField(DSL.name("password"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
+     * The column <code>public.users.tron_balance</code>.
+     */
+    public final TableField<UsersRecord, Double> TRON_BALANCE = createField(DSL.name("tron_balance"), SQLDataType.DOUBLE.nullable(false), this, "");
+
+    /**
+     * The column <code>public.users.bitcoin_balance</code>.
+     */
+    public final TableField<UsersRecord, Double> BITCOIN_BALANCE = createField(DSL.name("bitcoin_balance"), SQLDataType.DOUBLE.nullable(false), this, "");
+
+    /**
+     * The column <code>public.users.ethereum_balance</code>.
+     */
+    public final TableField<UsersRecord, Double> ETHEREUM_BALANCE = createField(DSL.name("ethereum_balance"), SQLDataType.DOUBLE.nullable(false), this, "");
+
+    /**
+     * The column <code>public.users.matic_balance</code>.
+     */
+    public final TableField<UsersRecord, Double> MATIC_BALANCE = createField(DSL.name("matic_balance"), SQLDataType.DOUBLE.nullable(false), this, "");
 
     /**
      * The column <code>public.users.registeredat</code>.
@@ -158,18 +178,18 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row4<Integer, String, String, String> fieldsRow() {
-        return (Row4) super.fieldsRow();
+    public Row8<Integer, String, String, Double, Double, Double, Double, String> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function4<? super Integer, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function8<? super Integer, ? super String, ? super String, ? super Double, ? super Double, ? super Double, ? super Double, ? super String, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -177,7 +197,7 @@ public class Users extends TableImpl<UsersRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function4<? super Integer, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function8<? super Integer, ? super String, ? super String, ? super Double, ? super Double, ? super Double, ? super Double, ? super String, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }
