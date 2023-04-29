@@ -45,7 +45,7 @@ public class WebHookUtil {
                     log.warn("Failed attempt to send a webhook notification to a URL: {} by method: {}", userFactory.getUrlBack(), dto.getCurrency());
                 }
             }
-            case "SOAP" -> {
+            case "GRPC" -> {
                 System.out.println("soap");
             }
 
