@@ -47,7 +47,10 @@ public class UserFactoryRepositoryImpl implements UserFactoryRepository {
     public void delete(UserFactory userFactory) {
         dslContext.deleteFrom(Userfactory.USERFACTORY)
                 .where(Userfactory.USERFACTORY.MERCHANTID.eq(userFactory.getMerchantId()))
+                .and(Userfactory.USERFACTORY.ID.eq(userFactory.getId().intValue()))
                 .and(Userfactory.USERFACTORY.APIKEY.eq(userFactory.getApikey()))
+                .and(Userfactory.USERFACTORY.URLBACK.eq(userFactory.getUrlBack()))
+                .and(Userfactory.USERFACTORY.REQUESTMETHOD.eq(userFactory.getRequestMethod()))
                 .execute();
     }
 }
