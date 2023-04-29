@@ -19,8 +19,8 @@ public class WebSecurityConfig extends WebSecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/**").permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers("/api/**").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic();
         return http.build();

@@ -33,25 +33,45 @@ public class PaymentFactoryController {
         return paymentService.createPayment(dto);
     }
     @PostMapping("/payByTron")
-    public String payByTron(@RequestParam Integer paymentId){
+    public HashMap<String, Integer> payByTron(@RequestParam Integer paymentId){
         boolean isSuccessful = paymentService.payByTron(paymentId);
-        return "nigga";
+
+        HashMap<String, Integer> response = new HashMap<>();
+        if (isSuccessful)
+            response.put("status", 200);
+        else
+            response.put("status", 400);
+        return response;
     }
     @PostMapping("/payByBitcoin")
     public HashMap<String, Integer> payByBitcoin(@RequestParam Integer paymentId){
         boolean isSuccessful = paymentService.payByBitcoin(paymentId);
-
-        return null;
+        HashMap<String, Integer> response = new HashMap<>();
+        if (isSuccessful)
+            response.put("status", 200);
+        else
+            response.put("status", 400);
+        return response;
     }
     @PostMapping("/payByEthereum")
     public HashMap<String, Integer> payByEthereum(@RequestParam Integer paymentId){
         boolean isSuccessful = paymentService.payByEthereum(paymentId);
-        return null;
+        HashMap<String, Integer> response = new HashMap<>();
+        if (isSuccessful)
+            response.put("status", 200);
+        else
+            response.put("status", 400);
+        return response;
     }
     @PostMapping("/payByMatic")
     public HashMap<String, Integer> payByMatic(@RequestParam Integer paymentId){
         boolean isSuccessful = paymentService.payByMatic(paymentId);
-        return null;
+        HashMap<String, Integer> response = new HashMap<>();
+        if (isSuccessful)
+            response.put("status", 200);
+        else
+            response.put("status", 400);
+        return response;
     }
 
 

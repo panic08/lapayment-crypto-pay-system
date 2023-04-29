@@ -30,7 +30,7 @@ public class WebHookUtil {
        }
         switch (userFactory.getRequestMethod()) {
             case "HTTP" -> {
-                log.info("Sending a webhook notification to URL: {} by method: {}", userFactory.getUrlBack(), dto.getCurrency());
+                log.info("Sending a webhook notification to URL: {} by method: {}", userFactory.getUrlBack(), userFactory.getRequestMethod());
                 Gson gson = new Gson();
                 Instant instant = Instant.now();
                 long unixTime = instant.getEpochSecond();

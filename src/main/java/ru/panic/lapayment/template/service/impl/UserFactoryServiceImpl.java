@@ -2,10 +2,14 @@ package ru.panic.lapayment.template.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.panic.lapayment.template.entity.User;
+import ru.panic.lapayment.template.entity.UserFactory;
 import ru.panic.lapayment.template.entity.enums.CryptoCurrency;
+import ru.panic.lapayment.template.exception.UserFactoryFoundedException;
 import ru.panic.lapayment.template.repository.impl.UserFactoryRepositoryImpl;
 import ru.panic.lapayment.template.repository.impl.UserRepositoryImpl;
 import ru.panic.lapayment.template.service.UserFactoryService;
+import ru.panic.lapayment.util.SHA256Encrypter;
+
 @Service
 public class UserFactoryServiceImpl implements UserFactoryService {
     public UserFactoryServiceImpl(UserFactoryRepositoryImpl userFactoryRepository, UserRepositoryImpl userRepository) {
@@ -38,4 +42,17 @@ public class UserFactoryServiceImpl implements UserFactoryService {
         }
 
     }
+
+    @Override
+    public UserFactory createApikey(UserFactory userFactory) {
+        UserFactory userFactory1 = userFactoryRepository.findByMerchantId(userFactory.getMerchantId());
+        if (userFactory1 != null) {
+            throw new UserFactoryFoundedException("Такое название приложения уже существует, придумайте другое");
+        }
+        userFactory.setApikey(SHA256Encrypter.encrypt(userFactory.getMerchantId()));
+        userFactoryRepository.save(userFactory);
+        return userFactory;
+    }
+
+
 }
