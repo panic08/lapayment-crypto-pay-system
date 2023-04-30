@@ -8,7 +8,7 @@ import ru.panic.lapayment.template.exception.UserFactoryFoundedException;
 import ru.panic.lapayment.template.repository.impl.UserFactoryRepositoryImpl;
 import ru.panic.lapayment.template.repository.impl.UserRepositoryImpl;
 import ru.panic.lapayment.template.service.UserFactoryService;
-import ru.panic.lapayment.util.SHA256Encrypter;
+import ru.panic.lapayment.util.ApikeyGenerator;
 
 @Service
 public class UserFactoryServiceImpl implements UserFactoryService {
@@ -49,7 +49,7 @@ public class UserFactoryServiceImpl implements UserFactoryService {
         if (userFactory1 != null) {
             throw new UserFactoryFoundedException("Такое название приложения уже существует, придумайте другое");
         }
-        userFactory.setApikey(SHA256Encrypter.encrypt(userFactory.getMerchantId()));
+        userFactory.setApikey(ApikeyGenerator.generate());
         userFactoryRepository.save(userFactory);
         return userFactory;
     }
