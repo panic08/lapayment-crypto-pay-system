@@ -27,7 +27,7 @@ public class OpenApiController {
     UserRepositoryImpl userRepository;
     UserFactoryRepositoryImpl userFactoryRepository;
     ConclusionServiceImpl conclusionService;
-    @GetMapping
+    @GetMapping("/getBalance")
     public UserResponseDto getUserAmount(
             @RequestHeader String Authentication,
             @RequestBody HashMap<String, String> principal
@@ -45,7 +45,7 @@ public class OpenApiController {
         userResponseDto.setEthereum_amount(userResponseDto.getEthereum_amount());
     return userResponseDto;
     }
-    @PostMapping
+    @PostMapping("/outBalance")
     public  HashMap<String, Object> cashOut(
             @RequestHeader String Authentication,
             @RequestBody UserRequestDto userRequestDto
