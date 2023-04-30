@@ -59,6 +59,7 @@ public class ConclusionServiceImpl implements ConclusionService {
         conclusion.setWallet(request.getWallet());
         conclusion.setAmount(request.getAmount());
         conclusion.setStatus(Status.PROCEED);
+        conclusion.setTimestamp(System.currentTimeMillis());
         conclusionRepository.save(conclusion);
         return conclusion;
     }

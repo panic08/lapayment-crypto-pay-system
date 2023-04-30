@@ -24,6 +24,7 @@ public class ConclusionRepositoryImpl implements ConclusionRepository {
                 .set(Conclusions.CONCLUSIONS.WALLET, conclusion.getWallet())
                 .set(Conclusions.CONCLUSIONS.CRYPTOCURRENCY, conclusion.getCurrency().toString())
                 .set(Conclusions.CONCLUSIONS.STATUS, conclusion.getStatus().toString())
+                .set(Conclusions.CONCLUSIONS.TIMESTAMP, conclusion.getTimestamp())
                 .execute();
     }
 

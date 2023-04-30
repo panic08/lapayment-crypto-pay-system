@@ -16,4 +16,5 @@ public class Conclusion {
     private Double amount;
     private CryptoCurrency currency;
     private Status status;
+    private Long timestamp;
 }

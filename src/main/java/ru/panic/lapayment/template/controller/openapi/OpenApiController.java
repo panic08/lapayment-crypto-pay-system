@@ -28,7 +28,7 @@ public class OpenApiController {
     UserFactoryRepositoryImpl userFactoryRepository;
     ConclusionServiceImpl conclusionService;
     @GetMapping("/getBalance")
-    public UserResponseDto getUserAmount(
+    public UserResponseDto getBalance(
             @RequestHeader String Authentication,
             @RequestBody HashMap<String, String> principal
             ){
@@ -46,7 +46,7 @@ public class OpenApiController {
     return userResponseDto;
     }
     @PostMapping("/outBalance")
-    public  HashMap<String, Object> cashOut(
+    public  HashMap<String, Object> outBalance(
             @RequestHeader String Authentication,
             @RequestBody UserRequestDto userRequestDto
             ){
@@ -59,11 +59,10 @@ public class OpenApiController {
         conclusionRequestDto.setPrincipal(userFactory.getPrincipal());
         conclusionRequestDto.setCurrency(userRequestDto.getCurrency());
         conclusionRequestDto.setAmount(userRequestDto.getAmount());
-        conclusionRequestDto.setWallet(userRequestDto.getWallet());
+        conclusionRequestDto.setWallet(userRequestDto.getPurse());
         conclusionService.createConclusion(conclusionRequestDto);
         HashMap<String, Object> response = new HashMap<>();
         response.put("status", 200);
-        response.put("wallet", userRequestDto.getWallet());
         response.put("purse", userRequestDto.getPurse());
         response.put("amount", userRequestDto.getAmount());
         response.put("currency", userRequestDto.getCurrency());

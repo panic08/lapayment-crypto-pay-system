@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS Payments(
      matic_amount double precision NOT NULL,
      currency text NOT NULL,
      status text NOT NULL,
-     time text NOT NULL
+     timestamp BIGINT NOT NULL
 );

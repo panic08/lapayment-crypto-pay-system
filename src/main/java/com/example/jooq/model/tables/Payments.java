@@ -101,9 +101,9 @@ public class Payments extends TableImpl<PaymentsRecord> {
     public final TableField<PaymentsRecord, String> STATUS = createField(DSL.name("status"), SQLDataType.CLOB.nullable(false), this, "");
 
     /**
-     * The column <code>public.payments.time</code>.
+     * The column <code>public.payments.timestamp</code>.
      */
-    public final TableField<PaymentsRecord, String> TIME = createField(DSL.name("time"), SQLDataType.CLOB.nullable(false), this, "");
+    public final TableField<PaymentsRecord, Long> TIMESTAMP = createField(DSL.name("timestamp"), SQLDataType.BIGINT.nullable(false), this, "");
 
     private Payments(Name alias, Table<PaymentsRecord> aliased) {
         this(alias, aliased, null);
@@ -197,14 +197,14 @@ public class Payments extends TableImpl<PaymentsRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<Integer, String, String, Double, Double, Double, Double, Double, String, String, String> fieldsRow() {
+    public Row11<Integer, String, String, Double, Double, Double, Double, Double, String, String, Long> fieldsRow() {
         return (Row11) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function11<? super Integer, ? super String, ? super String, ? super Double, ? super Double, ? super Double, ? super Double, ? super Double, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function11<? super Integer, ? super String, ? super String, ? super Double, ? super Double, ? super Double, ? super Double, ? super Double, ? super String, ? super String, ? super Long, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -212,7 +212,7 @@ public class Payments extends TableImpl<PaymentsRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super Integer, ? super String, ? super String, ? super Double, ? super Double, ? super Double, ? super Double, ? super Double, ? super String, ? super String, ? super String, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function11<? super Integer, ? super String, ? super String, ? super Double, ? super Double, ? super Double, ? super Double, ? super Double, ? super String, ? super String, ? super Long, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

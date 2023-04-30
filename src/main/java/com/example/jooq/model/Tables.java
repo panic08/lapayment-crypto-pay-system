@@ -5,7 +5,6 @@ package com.example.jooq.model;
 
 
 import com.example.jooq.model.tables.Conclusions;
-import com.example.jooq.model.tables.FlywaySchemaHistory;
 import com.example.jooq.model.tables.Payments;
 import com.example.jooq.model.tables.Userfactory;
 import com.example.jooq.model.tables.Users;
@@ -21,11 +20,6 @@ public class Tables {
      * The table <code>public.conclusions</code>.
      */
     public static final Conclusions CONCLUSIONS = Conclusions.CONCLUSIONS;
-
-    /**
-     * The table <code>public.flyway_schema_history</code>.
-     */
-    public static final FlywaySchemaHistory FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY;
 
     /**
      * The table <code>public.payments</code>.

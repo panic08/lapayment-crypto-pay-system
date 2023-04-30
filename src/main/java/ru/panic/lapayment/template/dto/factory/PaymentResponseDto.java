@@ -9,5 +9,5 @@ public class PaymentResponseDto {
     private Double amount;
     private CryptoCurrency currency;
     private String oauth;
-    private Long time;
+    private Long timestamp;
 }

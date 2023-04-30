@@ -60,7 +60,6 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment createPayment(PaymentRequestDto paymentRequestDto) {
 
         log.info("Creating new payment with payment");
-        Date date = new Date();
         Map<String, Map<String, Double>> result = cryptoExchangeUtil.getCoinsPrice(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
         Object tronPriceObj = result.get("tron").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
         Object bitcoinPriceObj = result.get("bitcoin").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
@@ -107,7 +106,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setMatic_amount(Math.round(((Double) payment.getAmount() / maticPrice) * 1e3) / 1e3);
         payment.setCurrency(paymentRequestDto.getCurrency());
         payment.setStatus(Status.NOT_COMPLETED);
-        payment.setTime(date);
+        payment.setTimestamp(System.currentTimeMillis());
         paymentRepository.save(payment);
         log.info("Saving payment");
         return payment;

@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS Conclusions(
      amount double precision NOT NULL,
      wallet text NOT NULL,
      cryptocurrency text NOT NULL,
-     status text NOT NULL
+     status text NOT NULL,
+     timestamp BIGINT NOT NULL
 );

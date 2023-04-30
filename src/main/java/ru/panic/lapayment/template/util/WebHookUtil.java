@@ -32,9 +32,7 @@ public class WebHookUtil {
             case "HTTP" -> {
                 log.info("Sending a webhook notification to URL: {} by method: {}", userFactory.getUrlBack(), userFactory.getRequestMethod());
                 Gson gson = new Gson();
-                Instant instant = Instant.now();
-                long unixTime = instant.getEpochSecond();
-                dto.setTime(unixTime);
+                dto.setTimestamp(System.currentTimeMillis());
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
 
