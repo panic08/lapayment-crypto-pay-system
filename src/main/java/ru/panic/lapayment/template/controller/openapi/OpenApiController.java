@@ -7,7 +7,6 @@ import ru.panic.lapayment.template.dto.factory.UserResponseDto;
 import ru.panic.lapayment.template.entity.User;
 import ru.panic.lapayment.template.entity.UserFactory;
 import ru.panic.lapayment.template.exception.InvalidApiKeyException;
-import ru.panic.lapayment.template.exception.InvalidCredentialsException;
 import ru.panic.lapayment.template.repository.impl.UserFactoryRepositoryImpl;
 import ru.panic.lapayment.template.repository.impl.UserRepositoryImpl;
 import ru.panic.lapayment.template.service.impl.ConclusionServiceImpl;
