@@ -4,6 +4,7 @@
 package com.example.jooq.model;
 
 
+import com.example.jooq.model.tables.Conclusions;
 import com.example.jooq.model.tables.FlywaySchemaHistory;
 import com.example.jooq.model.tables.Payments;
 import com.example.jooq.model.tables.Userfactory;
@@ -30,6 +31,11 @@ public class Public extends SchemaImpl {
      * The reference instance of <code>public</code>
      */
     public static final Public PUBLIC = new Public();
+
+    /**
+     * The table <code>public.conclusions</code>.
+     */
+    public final Conclusions CONCLUSIONS = Conclusions.CONCLUSIONS;
 
     /**
      * The table <code>public.flyway_schema_history</code>.
@@ -74,6 +80,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            Conclusions.CONCLUSIONS,
             FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
             Payments.PAYMENTS,
             Userfactory.USERFACTORY,

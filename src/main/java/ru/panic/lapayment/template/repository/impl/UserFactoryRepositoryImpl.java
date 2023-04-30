@@ -24,7 +24,7 @@ public class UserFactoryRepositoryImpl implements UserFactoryRepository {
     }
 
     @Override
-    public List<UserFactory> findByPrincipal(String principal) {
+    public List<UserFactory> findAllByPrincipal(String principal) {
         List<UserFactory> userFactory = dslContext.selectFrom(Userfactory.USERFACTORY)
                 .where(Userfactory.USERFACTORY.PRINCIPAL.eq(principal))
                 .fetchInto(UserFactory.class);

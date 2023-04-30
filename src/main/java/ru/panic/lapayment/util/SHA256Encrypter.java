@@ -2,7 +2,6 @@ package ru.panic.lapayment.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class SHA256Encrypter {
     public static String encrypt(String plaintext) {

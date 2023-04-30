@@ -34,4 +34,18 @@ public class UserRepositoryImpl implements UserRepository {
                 .set(USERS.REGISTEREDAT, String.valueOf(user.getRegisteredAt()))
                 .execute();
     }
+
+    @Override
+    public void update(User user) {
+        dslContext.update(USERS)
+                .set(USERS.ID, user.getId().intValue())
+                .set(USERS.USERNAME, user.getUsername())
+                .set(USERS.PASSWORD, user.getPassword())
+                .set(USERS.BITCOIN_BALANCE, user.getBitcoin_balance())
+                .set(USERS.ETHEREUM_BALANCE, user.getEthereum_balance())
+                .set(USERS.TRON_BALANCE, user.getTron_balance())
+                .set(USERS.MATIC_BALANCE, user.getMatic_balance())
+                .set(USERS.REGISTEREDAT, String.valueOf(user.getRegisteredAt()))
+                .execute();
+    }
 }

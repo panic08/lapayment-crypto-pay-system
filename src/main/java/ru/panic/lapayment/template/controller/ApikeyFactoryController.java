@@ -21,7 +21,7 @@ public class ApikeyFactoryController {
     UserFactoryRepositoryImpl userFactoryRepository;
     @GetMapping
     public List<UserFactory> getUserFactory(@RequestBody HashMap<String, String> principal){
-        return userFactoryRepository.findByPrincipal(principal.get("1"));
+        return userFactoryRepository.findAllByPrincipal(principal.get("1"));
     }
     @PostMapping
     public UserFactory createUserFactory(@RequestBody UserFactory userFactory){
