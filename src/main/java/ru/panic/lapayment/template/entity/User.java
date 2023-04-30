@@ -16,7 +16,7 @@ public class User implements UserDetails {
     private String username;
     @JsonIgnore
     private String password;
-    private Date registeredAt;
+    private Long registeredAt;
     private String token;
     private Double tron_balance;
     private Double bitcoin_balance;

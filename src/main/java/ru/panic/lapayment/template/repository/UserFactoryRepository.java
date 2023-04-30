@@ -8,6 +8,7 @@ import java.util.List;
 @Repository
 public interface UserFactoryRepository {
      UserFactory findByMerchantId(String merchantId);
+     UserFactory findByApikey(String apikey);
      List<UserFactory> findAllByPrincipal(String principal);
      void save(UserFactory userFactory);
      void delete(UserFactory userFactory);

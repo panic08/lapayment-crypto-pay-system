@@ -24,6 +24,14 @@ public class UserFactoryRepositoryImpl implements UserFactoryRepository {
     }
 
     @Override
+    public UserFactory findByApikey(String apikey) {
+        UserFactory userFactory = dslContext.selectFrom(Userfactory.USERFACTORY)
+                .where(Userfactory.USERFACTORY.APIKEY.eq(apikey))
+                .fetchOneInto(UserFactory.class);
+        return userFactory != null ? userFactory : null;
+    }
+
+    @Override
     public List<UserFactory> findAllByPrincipal(String principal) {
         List<UserFactory> userFactory = dslContext.selectFrom(Userfactory.USERFACTORY)
                 .where(Userfactory.USERFACTORY.PRINCIPAL.eq(principal))

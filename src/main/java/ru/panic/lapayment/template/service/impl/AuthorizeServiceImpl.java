@@ -40,7 +40,6 @@ public class AuthorizeServiceImpl implements AuthorizeService {
 
     @Override
     public User generateRegister(AuthorizeRequestDto authorizeRequestDto)  {
-        System.out.println("vrode ok");
         User user = new User();
 
             if (userRepository.findByUsername(authorizeRequestDto.getUsername()) != null) {
@@ -49,10 +48,10 @@ public class AuthorizeServiceImpl implements AuthorizeService {
 
             }
 
-            Date date = new Date();
+
             user.setUsername(authorizeRequestDto.getUsername());
             user.setPassword(passwordEncoder.encode(authorizeRequestDto.getPassword()));
-            user.setRegisteredAt(date);
+            user.setRegisteredAt(System.currentTimeMillis());
             user.setBitcoin_balance(0.0);
             user.setEthereum_balance(0.0);
             user.setTron_balance(0.0);
