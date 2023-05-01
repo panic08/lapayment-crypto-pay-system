@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS Users(
     bitcoin_balance double precision NOT NULL,
     ethereum_balance double precision NOT NULL,
     matic_balance double precision NOT NULL,
-    registeredAt varchar(255) not null
+    registeredAt varchar(255) NOT NULL
 );

@@ -17,7 +17,7 @@ public class AdminController {
 
     ConclusionRepositoryImpl conclusionRepository;
     @PostMapping
-    public HashMap<String, Object> updateConclusionStatus(
+    public HashMap<String, Object> acceptConclusion(
             @RequestBody Conclusion conclusion){
         conclusionRepository.updateStatus(conclusion, Status.COMPLETED);
         HashMap<String, Object> response = new HashMap<>();

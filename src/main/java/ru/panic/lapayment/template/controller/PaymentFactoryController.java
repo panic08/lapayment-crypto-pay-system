@@ -20,6 +20,7 @@ public class PaymentFactoryController {
 
     @PostMapping("/createPayment")
     public Payment createPayment(
+            @RequestParam String action,
             @RequestParam String merchantId,
             @RequestParam String oauth,
             @RequestParam Number amount,
