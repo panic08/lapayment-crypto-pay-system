@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.panic.lapayment.template.entity.Conclusion;
 import ru.panic.lapayment.template.entity.enums.Status;
 import ru.panic.lapayment.template.repository.impl.ConclusionRepositoryImpl;
-
 import java.util.HashMap;
 
 @RestController
