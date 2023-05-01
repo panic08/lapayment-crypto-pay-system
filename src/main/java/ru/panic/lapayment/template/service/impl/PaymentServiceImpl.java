@@ -11,6 +11,7 @@ import ru.panic.lapayment.template.dto.factory.PaymentRequestDto;
 import ru.panic.lapayment.template.dto.factory.PaymentResponseDto;
 import ru.panic.lapayment.template.entity.Payment;
 import ru.panic.lapayment.template.entity.enums.CryptoCurrency;
+import ru.panic.lapayment.template.entity.enums.Currency;
 import ru.panic.lapayment.template.entity.enums.Status;
 import ru.panic.lapayment.template.exception.StatusProceedException;
 import ru.panic.lapayment.template.repository.impl.PaymentRepositoryImpl;
@@ -56,44 +57,26 @@ public class PaymentServiceImpl implements PaymentService {
     private final String BITCOIN_TRANSACTION_URL = "https://blockchain.info/rawaddr/" + BITCOIN_WALLET + "?limit=5";
     private final String ETHEREUM_TRANSACTION_URL = "https://api.etherscan.io/api?module=account&action=txlist&address=" + ETHEREUM_WALLET + "&startblock=0&endblock=99999999&sort=desc&page=1&offset=8&apikey=" + ETHEREUM_API_KEY;
     private final String MATIC_TRANSACTION_URL = "https://api.polygonscan.com/api?module=account&action=txlist&address=" + ETHEREUM_WALLET + "&startblock=0&endblock=9999999999999999&page=1&offset=8&sort=desc&apikey=" + MATIC_API_KEY;
+
+    private <T> Double getPriceFromMap(Map<String, T> map, Currency currency) {
+        T priceObj = map.get(currency.toString().toLowerCase());
+        if (priceObj instanceof Double) {
+            return (Double) priceObj;
+        } else if (priceObj instanceof Integer) {
+            return ((Integer) priceObj).doubleValue();
+        }
+        return null;
+    }
     @Override
     public Payment createPayment(PaymentRequestDto paymentRequestDto) {
 
         log.info("Creating new payment with payment");
         Map<String, Map<String, Double>> result = cryptoExchangeUtil.getCoinsPrice(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
-        Object tronPriceObj = result.get("tron").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
-        Object bitcoinPriceObj = result.get("bitcoin").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
-        Object ethereumPriceObj = result.get("ethereum").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
-        Object maticPriceObj = result.get("matic-network").get(String.valueOf(paymentRequestDto.getCurrency()).toLowerCase());
-        Double tronPrice = null;
         log.info("Checking crypto prices");
-        if (tronPriceObj instanceof Double) {
-            tronPrice = (Double) tronPriceObj;
-        } else if (tronPriceObj instanceof Integer) {
-            tronPrice = ((Integer) tronPriceObj).doubleValue();
-        }
-
-        Double bitcoinPrice = null;
-        if (bitcoinPriceObj instanceof Double) {
-            bitcoinPrice = (Double) bitcoinPriceObj;
-        } else if (bitcoinPriceObj instanceof Integer) {
-            bitcoinPrice = ((Integer) bitcoinPriceObj).doubleValue();
-        }
-        ;
-        Double ethereumPrice = null;
-        if (ethereumPriceObj instanceof Double) {
-            ethereumPrice = (Double) ethereumPriceObj;
-        } else if (ethereumPriceObj instanceof Integer) {
-            ethereumPrice = ((Integer) ethereumPriceObj).doubleValue();
-        }
-        ;
-        Double maticPrice = null;
-        if (maticPriceObj instanceof Double) {
-            maticPrice = (Double) maticPriceObj;
-        } else if (maticPriceObj instanceof Integer) {
-            maticPrice = ((Integer) maticPriceObj).doubleValue();
-        }
-        ;
+        Double tronPrice = getPriceFromMap(result.get("tron"), paymentRequestDto.getCurrency());
+        Double bitcoinPrice = getPriceFromMap(result.get("bitcoin"), paymentRequestDto.getCurrency());
+        Double ethereumPrice = getPriceFromMap(result.get("ethereum"), paymentRequestDto.getCurrency());
+        Double maticPrice = getPriceFromMap(result.get("matic-network"), paymentRequestDto.getCurrency());
         log.info("Creating new payment");
         Payment payment = new Payment();
         payment.setPaymentId(paymentRepository.findLastId() +1L);
@@ -304,5 +287,6 @@ public class PaymentServiceImpl implements PaymentService {
         paymentRepository.updateStatusByPaymentId(paymentId, Status.NOT_COMPLETED);
         return false;
     }
+
 
 }
