@@ -35,15 +35,15 @@ public class TestController {
     @PostMapping("mr")
     public String fsdfsdfd(){
         User user = new User();
-        user.setUsername("Andreo");
+        user.setUsername("111Andrey");
         user.setPassword("fdsjfisdjsdf");
         String token = jwtUtils.generateToken(user);
         System.out.println(token);
         String decodedToken = jwtDecoder.getUsernameFromJwt(token);
         System.out.println(decodedToken);
+        System.out.println(jwtDecoder.isJwtValid(token));
         System.out.println(jwtDecoder.isJwtExpired(token));
-        System.out.println(jwtUtils.extractUsername(token));
-        System.out.println(jwtUtils.extractExpiration(token));
+        System.out.println(jwtDecoder.isJwtValid("panic08"));
         return  null;
     }
 
@@ -55,7 +55,7 @@ public class TestController {
         TronDto response = restTemplate.getForObject(url, TronDto.class);
         dslContext.insertInto(USERS)
                 .set(USERS.USERNAME, "nigger")
-                .set(USERS.PASSWORD, "GOVNO")
+                .set(USERS.PASSWORD, "zdxczxfdsfds")
                 .set(USERS.REGISTEREDAT, String.valueOf(date)).execute();
         return response;
     }

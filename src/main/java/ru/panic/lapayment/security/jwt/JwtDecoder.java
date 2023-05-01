@@ -1,7 +1,6 @@
 package ru.panic.lapayment.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -32,5 +31,22 @@ public class JwtDecoder {
 
     public Boolean isJwtExpired(String jwt) {
         return getExpirationDateFromJwt(jwt).before(new Date());
+    }
+    public Boolean isJwtValid(String jwt) {
+        try {
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(jwt);
+            return true;
+        } catch (SignatureException ex) {
+            // JWT не был подписан корректным ключом
+        } catch (MalformedJwtException ex) {
+            // JWT был некорректно сформирован
+        } catch (ExpiredJwtException ex) {
+            // JWT истек
+        } catch (UnsupportedJwtException ex) {
+            // JWT имеет неподдерживаемый формат
+        } catch (IllegalArgumentException ex) {
+            // JWT пустой или null
+        }
+        return false;
     }
 }
