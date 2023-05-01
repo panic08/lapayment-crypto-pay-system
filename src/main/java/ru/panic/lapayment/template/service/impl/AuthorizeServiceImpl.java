@@ -47,8 +47,6 @@ public class AuthorizeServiceImpl implements AuthorizeService {
                 throw new UserFoundedException("Пользователь с таким логином уже существует.");
 
             }
-
-
             user.setUsername(authorizeRequestDto.getUsername());
             user.setPassword(passwordEncoder.encode(authorizeRequestDto.getPassword()));
             user.setRegisteredAt(System.currentTimeMillis());
