@@ -5,10 +5,14 @@ import ru.panic.lapayment.template.entity.Payment;
 import ru.panic.lapayment.template.entity.enums.Status;
 import ru.panic.lapayment.template.repository.impl.PaymentRepositoryImpl;
 
+import java.util.List;
+
 @Repository
 public interface PaymentRepository {
     void save(Payment payment);
+    void delete(Payment payment);
     void updateStatusByPaymentId(Integer paymentId, Status status);
     Payment findPaymentByPaymentId(Integer paymentId);
+    List<Payment> findAllByStatus(Status status);
     Long findLastId();
 }

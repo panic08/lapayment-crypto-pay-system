@@ -9,6 +9,8 @@ import ru.panic.lapayment.template.entity.Payment;
 import ru.panic.lapayment.template.entity.enums.Status;
 import ru.panic.lapayment.template.repository.PaymentRepository;
 
+import java.util.List;
+
 @Service
 public class PaymentRepositoryImpl implements PaymentRepository {
     public PaymentRepositoryImpl(DSLContext dslContext) {
@@ -34,6 +36,13 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
+    public void delete(Payment payment) {
+        dslContext.deleteFrom(Payments.PAYMENTS)
+                .where(Payments.PAYMENTS.ID.eq(payment.getPaymentId().intValue()))
+                .execute();
+    }
+
+    @Override
     public Payment findPaymentByPaymentId(Integer paymentId) {
         PaymentsRecord paymentsRecord = dslContext
                 .selectFrom(Payments.PAYMENTS)
@@ -41,6 +50,13 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 .fetchOne();
         assert paymentsRecord != null;
         return paymentsRecord.into(Payment.class);
+    }
+
+    @Override
+    public List<Payment> findAllByStatus(Status status) {
+        return dslContext.selectFrom(Payments.PAYMENTS)
+                .where(Payments.PAYMENTS.STATUS.eq(status.toString()))
+                .fetchInto(Payment.class);
     }
 
     @Override
