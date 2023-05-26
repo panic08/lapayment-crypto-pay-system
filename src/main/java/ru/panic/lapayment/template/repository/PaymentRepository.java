@@ -7,7 +7,7 @@ import ru.panic.lapayment.template.repository.impl.PaymentRepositoryImpl;
 
 import java.util.List;
 
-@Repository
+
 public interface PaymentRepository {
     void save(Payment payment);
     void delete(Payment payment);

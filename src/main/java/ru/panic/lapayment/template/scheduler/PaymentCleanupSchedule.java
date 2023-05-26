@@ -18,7 +18,7 @@ public class PaymentCleanupSchedule {
     }
     PaymentRepositoryImpl paymentRepository;
 
-    @Scheduled(fixedRate = 1800000) // 30 минут = 30 * 60 * 1000 миллисекунд
+    @Scheduled(fixedRate = 1800000)
     public void cleanupNotCompletedPayments() {
         log.info("Starting payments-cleanuping");
         List<Payment> payments = paymentRepository.findAllByStatus(Status.NOT_COMPLETED);

@@ -5,7 +5,7 @@ import ru.panic.lapayment.template.entity.UserFactory;
 
 import java.util.List;
 
-@Repository
+
 public interface UserFactoryRepository {
      UserFactory findByMerchantId(String merchantId);
      UserFactory findByApikey(String apikey);

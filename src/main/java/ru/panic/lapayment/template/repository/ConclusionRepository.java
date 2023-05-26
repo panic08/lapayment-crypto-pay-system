@@ -6,7 +6,7 @@ import ru.panic.lapayment.template.entity.enums.Status;
 
 import java.util.List;
 
-@Repository
+
 public interface ConclusionRepository {
     void save(Conclusion conclusion);
     void delete(Conclusion conclusion);
