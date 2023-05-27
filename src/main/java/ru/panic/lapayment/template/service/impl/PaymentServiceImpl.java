@@ -37,16 +37,16 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Value("${ru.panic.lapayment.wallets.tron}")
-    private String TRON_WALLET = "TDosXs3EDkd5t8hcM26cFTysVf7gbX2uPX";
+    private String TRON_WALLET = "";
     @Value("${ru.panic.lapayment.wallets.bitcoin}")
-    private String BITCOIN_WALLET = "bc1qn0d3p0emkkkq49mlms5ukqpf7p67wg897ggefc";
+    private String BITCOIN_WALLET = "";
     @Value("${ru.panic.lapayment.wallets.ethereum}")
-    private String ETHEREUM_WALLET = "0x328F56cAE1d768a369d11CEF6B30b4Ee2AF51D81";
+    private String ETHEREUM_WALLET = "";
 
     @Value("${ru.panic.lapayment.apikeys.ethereum}")
-    private String ETHEREUM_API_KEY = "8GW1WT6DTQAASZK816JAN15XDPM3EUW2JB";
+    private String ETHEREUM_API_KEY = "";
     @Value("${ru.panic.lapayment.apikeys.matic}")
-    private String MATIC_API_KEY = "QSCB7GIRZ1HTDP8GBZN4XSJGQ665ZDV2MX";
+    private String MATIC_API_KEY = "";
 
     PaymentRepositoryImpl paymentRepository;
     RestTemplate restTemplate;
